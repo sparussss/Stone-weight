@@ -314,7 +314,7 @@ html,body{background:radial-gradient(circle at 50% -120px,#18345e 0,#090d14 42%,
 <div class="app">
   <header class="header">
   <div class="header-row">
-    <div><h1>Stone Weight</h1><small>Version 1.2.3 · Layout & Speed Fix</small></div>
+    <div><h1>Stone Weight</h1><small>Version 1.2.4 · Trillion & Cache Fix</small></div>
     <button id="menuBtn" class="menu-btn" aria-label="Open menu">☰</button>
   </div>
 </header>
@@ -472,11 +472,13 @@ const SHAPE_ICONS={
 "Marquise":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M32 4C43 15 49 24 49 32S43 49 32 60C21 49 15 40 15 32S21 15 32 4z"/></svg>`,
 "Trillion":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
 <path d="M32 5
-C43 8 53 18 59 30
-C63 39 57 51 46 57
-C38 61 26 61 18 57
-C7 51 1 39 5 30
-C11 18 21 8 32 5Z"/>
+C41 6 52 15 59 29
+C62 35 60 42 56 47
+C52 53 46 58 38 60
+C34 61 30 61 26 60
+C18 58 12 53 8 47
+C4 42 2 35 5 29
+C12 15 23 6 32 5Z"/>
 </svg>`,
 "Cabochon":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M10 43C14 24 22 14 32 14s18 10 22 29"/><path d="M10 43h44"/></svg>`
 };
@@ -737,7 +739,7 @@ function showDetail(id){
 $("closeModal").addEventListener("click",()=>$("detailModal").classList.remove("show"));
 $("detailModal").addEventListener("click",e=>{if(e.target===$("detailModal"))$("detailModal").classList.remove("show")});
 
-populate();updateShapeFields();updateShapeDisplay();updateDepth();calculate();renderLibrary();renderQuickStones();
+populate();updateShapeFields();renderHomeShapeGrid();updateDepth();calculate();
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
   window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));
 }

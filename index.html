@@ -212,13 +212,76 @@ html,body{background:radial-gradient(circle at 50% -120px,#18345e 0,#090d14 42%,
 .menu-notice p{margin:0;padding:0 14px 14px;color:#aebdd0;font-size:12px;line-height:1.5}
 @media(max-width:390px){.home-shape-grid{gap:6px}.home-shape-btn{min-height:68px;font-size:10px;padding:6px 2px}.home-shape-icon,.home-shape-icon svg{width:31px;height:31px}.option-grid{grid-template-columns:1fr 1fr .68fr;gap:6px}.option-grid .control{padding-left:7px;padding-right:7px;font-size:12px}}
 
+
+/* v1.2.1 compact input and shape grid */
+.input-gemstone-row{
+  display:grid;
+  grid-template-columns:92px minmax(0,1fr);
+  gap:10px;
+  align-items:end;
+  margin-bottom:8px;
+}
+.input-gemstone-label{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  min-height:48px;
+}
+.input-gemstone-label .section-title{
+  margin:0 0 6px;
+}
+.input-gemstone-label span{
+  font-size:12px;
+  font-weight:700;
+  color:#d6e0ed;
+}
+.input-gemstone-control .stone-picker-btn{
+  min-height:48px;
+}
+.input-gemstone-control .stone-picker-main span{
+  font-size:14px;
+}
+.home-shape-grid{
+  gap:5px;
+}
+.home-shape-btn{
+  min-height:56px;
+  border-radius:11px;
+  gap:2px;
+  padding:4px 2px;
+  font-size:9.5px;
+}
+.home-shape-icon,
+.home-shape-icon svg{
+  width:25px;
+  height:25px;
+}
+.shape-home-field{
+  margin-bottom:7px;
+}
+@media(max-width:390px){
+  .input-gemstone-row{
+    grid-template-columns:82px minmax(0,1fr);
+    gap:8px;
+  }
+  .home-shape-btn{
+    min-height:52px;
+    font-size:9px;
+  }
+  .home-shape-icon,
+  .home-shape-icon svg{
+    width:23px;
+    height:23px;
+  }
+}
+
 </style>
 </head>
 <body>
 <div class="app">
   <header class="header">
   <div class="header-row">
-    <div><h1>Stone Weight</h1><small>Version 1.2.0 · Direct Shape Grid</small></div>
+    <div><h1>Stone Weight</h1><small>Version 1.2.1 · Compact Shape Grid</small></div>
     <button id="menuBtn" class="menu-btn" aria-label="Open menu">☰</button>
   </div>
 </header>
@@ -242,14 +305,22 @@ html,body{background:radial-gradient(circle at 50% -120px,#18345e 0,#090d14 42%,
       <div id="dimensionSummary" class="dimension-line">—</div>
     </section>
 <section class="input-dock">
-      <h2 class="section-title">Input</h2>
-      <div class="field"><label>Gemstone</label>
-  <button id="stonePickerBtn" class="control stone-picker-btn" type="button">
-    <span class="stone-picker-main"><span id="stonePickerName">Amethyst (Quartz)</span><small id="stonePickerSG">S.G. 2.66</small></span>
-    <span class="stone-chevron">⌄</span>
-  </button>
-  <select id="stoneSelect" class="control" hidden></select>
-</div>
+      <div class="input-gemstone-row">
+        <div class="input-gemstone-label">
+          <h2 class="section-title">Input</h2>
+          <span>Gemstone</span>
+        </div>
+        <div class="input-gemstone-control">
+          <button id="stonePickerBtn" class="control stone-picker-btn" type="button">
+            <span class="stone-picker-main">
+              <span id="stonePickerName">Amethyst (Quartz)</span>
+            </span>
+            <span class="stone-chevron">⌄</span>
+          </button>
+          <select id="stoneSelect" class="control" hidden></select>
+        </div>
+      </div>
+
 <div class="field shape-home-field"><label>Shape</label>
   <div id="homeShapeGrid" class="home-shape-grid"></div>
   <select id="shapeSelect" class="control" hidden>
@@ -366,7 +437,14 @@ const SHAPE_ICONS={
 "Square":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M15 8h34l7 7v34l-7 7H15l-7-7V15z"/></svg>`,
 "Princess":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="10" y="10" width="44" height="44"/></svg>`,
 "Marquise":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M32 4C43 15 49 24 49 32S43 49 32 60C21 49 15 40 15 32S21 15 32 4z"/></svg>`,
-"Trillion":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M32 7C42 11 51 20 56 31c4 9-2 21-12 25-8 4-16 4-24 0C10 52 4 40 8 31 13 20 22 11 32 7z"/></svg>`,
+"Trillion":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+<path d="M32 6
+C38 8 50 18 57 29
+C61 36 58 47 49 53
+C41 59 23 59 15 53
+C6 47 3 36 7 29
+C14 18 26 8 32 6z"/>
+</svg>`,
 "Cabochon":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M10 43C14 24 22 14 32 14s18 10 22 29"/><path d="M10 43h44"/></svg>`
 };
 function n(v){const x=parseFloat(v);return Number.isFinite(x)?x:0}

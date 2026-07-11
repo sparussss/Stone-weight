@@ -22,7 +22,7 @@
 html,body{margin:0;width:100%;min-height:100%;background:#070a0f;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 body{min-height:100vh}
 button,input,select{font:inherit}
-.app{min-height:100dvh;padding-bottom:calc(78px + var(--safe-bottom))}
+.app{min-height:100dvh;padding-bottom:calc(18px + var(--safe-bottom))}
 .header{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,#0a46a4,#0c59cf);padding:calc(12px + env(safe-area-inset-top,0px)) 18px 13px;text-align:center;box-shadow:0 2px 12px #0008}
 .header h1{font-size:20px;margin:0;font-weight:700}.header small{display:block;opacity:.75;margin-top:3px}
 .page{display:none}.page.active{display:block}
@@ -64,11 +64,35 @@ select.control{appearance:none;background-image:linear-gradient(45deg,transparen
 .sheet-handle{width:42px;height:5px;background:#526074;border-radius:9px;margin:0 auto 14px}.sheet h2{font-size:18px;margin:0 0 12px}.details-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px}.details-grid div{background:#1b2637;border-radius:10px;padding:10px}.details-grid span{display:block;color:#93a1b5;font-size:11px;margin-bottom:3px}
 .close-btn{width:100%;margin-top:14px}
 @media(max-width:380px){.hero{grid-template-columns:1fr 100px}.hero-image{width:100px;height:88px}.weight{font-size:37px}.grid3{grid-template-columns:1fr 1fr}}
+
+.header-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.header-row h1{flex:1;text-align:left}
+.menu-btn{width:44px;height:40px;border:0;border-radius:11px;background:#ffffff1f;color:white;font-size:25px;line-height:1}
+.menu-overlay{position:fixed;inset:0;z-index:1000;background:#000a;display:none}
+.menu-overlay.show{display:block}
+.menu-panel{position:absolute;top:0;right:0;width:min(82vw,310px);height:100%;padding:calc(20px + env(safe-area-inset-top,0px)) 18px calc(18px + env(safe-area-inset-bottom,0px));background:#111a27;box-shadow:-10px 0 30px #0008}
+.menu-panel h2{margin:0 0 18px;font-size:20px}
+.menu-item{display:block;width:100%;min-height:52px;margin-bottom:10px;border:1px solid #385474;border-radius:13px;background:#213047;color:white;text-align:left;padding:0 15px;font-weight:700}
+.menu-item.active{background:linear-gradient(135deg,#2584ff,#0b55ca);border-color:#4c9aff}
+.round-hidden{display:none!important}
+
+
+.depth-modes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.depth-mode{min-height:44px;border:1px solid #3b5678;border-radius:11px;background:#22324a;color:#cfd9e6;font-weight:750}
+.depth-mode.active{background:linear-gradient(135deg,#2584ff,#0b55ca);border-color:#5aa1ff;color:white;box-shadow:0 0 0 2px #1676ff22}
+.control.auto-depth{background:#1a2638;color:#b8c4d3}
+@media(max-width:390px){.depth-modes{grid-template-columns:repeat(2,1fr)}}
+
 </style>
 </head>
 <body>
 <div class="app">
-  <header class="header"><h1>Gemstone Weight Estimator</h1></header>
+  <header class="header">
+  <div class="header-row">
+    <h1>Gemstone Weight Estimator</h1>
+    <button id="menuBtn" class="menu-btn" aria-label="Open menu">☰</button>
+  </div>
+</header>
 
   
 <main id="weightPage" class="page active">
@@ -104,14 +128,21 @@ select.control{appearance:none;background-image:linear-gradient(45deg,transparen
         </div>
       </div>
       <div class="grid3">
-        <div class="field"><label>Min. Width</label><div class="input-wrap"><input id="minDim" class="control" type="number" inputmode="decimal" min="0.5" max="100" step="0.01" value="5"><span class="unit">mm</span></div></div>
-        <div class="field"><label>Max. Length</label><div class="input-wrap"><input id="maxDim" class="control" type="number" inputmode="decimal" min="0.5" max="100" step="0.01" value="5"><span class="unit">mm</span></div></div>
-        <div class="field"><label>Depth</label><div class="input-wrap"><input id="depth" class="control" type="number" inputmode="decimal" min="0.5" max="100" step="0.01" value="3.5"><span class="unit">mm</span></div></div>
+        <div class="field" id="minField"><label id="minLabel">Min. Width</label><div class="input-wrap"><input id="minDim" class="control" type="number" inputmode="decimal" min="0.5" max="100" step="0.01" value="" placeholder="Enter"><span class="unit">mm</span></div></div>
+        <div class="field" id="maxField"><label>Max. Length</label><div class="input-wrap"><input id="maxDim" class="control" type="number" inputmode="decimal" min="0.5" max="100" step="0.01" value="" placeholder="Enter"><span class="unit">mm</span></div></div>
+        <div class="field"><label>Depth</label><div class="input-wrap"><input id="depth" class="control" type="number" inputmode="decimal" min="0.5" max="100" step="0.01" value="" placeholder="Auto"><span class="unit">mm</span></div></div>
       </div>
-      <div class="auto-row">
-        <span>Depth automatically equals 70% of Min. Width</span>
-        <label class="switch"><input id="autoDepth" type="checkbox" checked><span class="slider"></span></label>
+
+      <div class="field">
+        <label>Depth Calculation</label>
+        <div class="depth-modes" role="group" aria-label="Depth calculation mode">
+          <button type="button" class="depth-mode active" data-ratio="0.70">70%</button>
+          <button type="button" class="depth-mode" data-ratio="0.65">65%</button>
+          <button type="button" class="depth-mode" data-ratio="0.60">60%</button>
+          <button type="button" class="depth-mode" data-ratio="manual">Manual</button>
+        </div>
       </div>
+
       <div class="grid2">
         <div class="field"><label>Bulge</label>
           <select id="bulgeSelect" class="control">
@@ -125,7 +156,7 @@ select.control{appearance:none;background-image:linear-gradient(45deg,transparen
           </select>
         </div>
       </div>
-      <div class="field"><label>Quantity</label><input id="quantity" class="control" type="number" inputmode="numeric" min="1" max="99999" step="1" value="1"></div>
+      <div class="field"><label>Quantity</label><input id="quantity" class="control" type="number" inputmode="numeric" min="1" max="99999" step="1" value="" placeholder="Optional"></div>
       <div class="actions single"><button id="resetBtn" class="btn btn-secondary">Reset</button></div>
       <div class="note">This is an estimated weight based on dimensions, specific gravity and standard shape factors. Actual weight varies with cutting, pavilion profile, girdle and measurement accuracy.</div>
     </section>
@@ -154,11 +185,15 @@ select.control{appearance:none;background-image:linear-gradient(45deg,transparen
   </main>
 </div>
 
-<nav class="tabs">
-  <button class="tab active" data-page="weightPage"><span class="tab-icon">⚖︎</span><span>Weight</span></button>
-  <button class="tab" data-page="sgPage"><span class="tab-icon">◇</span><span>S.G.</span></button>
-  <button class="tab" data-page="libraryPage"><span class="tab-icon">▤</span><span>Stone Library</span></button>
-</nav>
+<div id="menuOverlay" class="menu-overlay">
+  <div class="menu-panel">
+    <h2>Menu</h2>
+    <button class="menu-item active" data-menu-page="weightPage">Weight Estimation</button>
+    <button class="menu-item" data-menu-page="sgPage">S.G. Estimation</button>
+    <button class="menu-item" data-menu-page="libraryPage">Stone Library</button>
+    <button id="closeMenu" class="menu-item">Close</button>
+  </div>
+</div>
 
 <div id="detailModal" class="modal"><div class="sheet"><div class="sheet-handle"></div><div id="detailContent"></div><button id="closeModal" class="btn btn-secondary close-btn">Close</button></div></div>
 
@@ -170,7 +205,7 @@ const SHAPE_FACTORS={
 };
 const $=id=>document.getElementById(id);
 const stoneSelect=$("stoneSelect"), shapeSelect=$("shapeSelect");
-const minDim=$("minDim"), maxDim=$("maxDim"), depth=$("depth"), autoDepth=$("autoDepth");
+const minDim=$("minDim"), maxDim=$("maxDim"), depth=$("depth");
 const quantity=$("quantity"), bulgeSelect=$("bulgeSelect"), girdleSelect=$("girdleSelect");
 
 function n(v){const x=parseFloat(v);return Number.isFinite(x)?x:0}
@@ -181,14 +216,22 @@ function populate(){
   if(amy) stoneSelect.value=String(amy.id);
   $("sgShape").innerHTML=shapeSelect.innerHTML;
 }
+let depthMode="0.70";
 function updateDepth(){
-  if(autoDepth.checked){
+  const manual=depthMode==="manual";
+  depth.readOnly=!manual;
+  depth.classList.toggle("auto-depth",!manual);
+  depth.placeholder=manual?"Enter":"Auto";
+  if(!manual){
     const v=n(minDim.value);
-    depth.value=v?(v*0.70).toFixed(2):"";
+    depth.value=v?(v*parseFloat(depthMode)).toFixed(2):"";
   }
 }
 function calculate(){
   const s=selectedStone(), shape=shapeSelect.value;
+  if(shape==="Round Brilliant"){
+    maxDim.value=minDim.value;
+  }
   const min=n(minDim.value), max=n(maxDim.value), dep=n(depth.value), qty=Math.max(1,Math.round(n(quantity.value)||1));
   const factor=SHAPE_FACTORS[shape]||0.0061;
   const girdle=n(girdleSelect.value)||1, bulge=n(bulgeSelect.value)||1;
@@ -197,28 +240,56 @@ function calculate(){
   const total=ct*qty;
   $("resultStone").textContent=s.name;$("resultShape").textContent=shape;
   $("stoneImage").src=s.image||"";$("singleWeight").textContent=ct.toFixed(3);
-  $("quantitySummary").textContent=qty+(qty===1?" pc":" pcs");
+  $("quantitySummary").textContent=quantity.value ? qty+(qty===1?" pc":" pcs") : "—";
   $("totalWeight").textContent=total.toFixed(3)+" ct";$("gramWeight").textContent=(total*0.2).toFixed(3)+" g";
   $("dimensionSummary").textContent=`${min.toFixed(2)} × ${max.toFixed(2)} × ${dep.toFixed(2)} mm · S.G. ${n(s.sg_typical).toFixed(2)} · ${bulgeSelect.options[bulgeSelect.selectedIndex].text} Bulge · ${girdleSelect.options[girdleSelect.selectedIndex].text} Girdle`;
 }
 function reset(){
   const amy=STONES.find(s=>s.name==="Amethyst (Quartz)");
   if(amy) stoneSelect.value=String(amy.id);
-  shapeSelect.value="Round Brilliant";minDim.value="5";maxDim.value="5";autoDepth.checked=true;updateDepth();
-  bulgeSelect.value="1";girdleSelect.value="1.03";quantity.value="1";calculate();
+  shapeSelect.value="Round Brilliant";
+  minDim.value="";maxDim.value="";depth.value="";quantity.value="";
+  depthMode="0.70";
+  bulgeSelect.value="1";girdleSelect.value="1.03";
+  updateShapeFields();calculate();
 }
 [stoneSelect,shapeSelect,maxDim,depth,quantity,bulgeSelect,girdleSelect].forEach(el=>el.addEventListener("change",calculate));
 [minDim,maxDim,depth,quantity].forEach(el=>el.addEventListener("input",calculate));
 minDim.addEventListener("input",()=>{updateDepth();calculate()});
-autoDepth.addEventListener("change",()=>{updateDepth();calculate()});
+
 $("resetBtn").addEventListener("click",reset);
 
-document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
-  btn.classList.add("active");$(btn.dataset.page).classList.add("active");
+
+function updateShapeFields(){
+  const isRound=shapeSelect.value==="Round Brilliant";
+  $("minLabel").textContent=isRound?"Diameter":"Min. Width";
+  $("maxField").classList.toggle("round-hidden",isRound);
+  if(isRound) maxDim.value=minDim.value;
+}
+shapeSelect.addEventListener("change",()=>{updateShapeFields();updateDepth();calculate()});
+
+const menuOverlay=$("menuOverlay");
+$("menuBtn").addEventListener("click",()=>menuOverlay.classList.add("show"));
+$("closeMenu").addEventListener("click",()=>menuOverlay.classList.remove("show"));
+menuOverlay.addEventListener("click",e=>{if(e.target===menuOverlay)menuOverlay.classList.remove("show")});
+document.querySelectorAll("[data-menu-page]").forEach(btn=>btn.addEventListener("click",()=>{
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  $(btn.dataset.menuPage).classList.add("active");
+  document.querySelectorAll("[data-menu-page]").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  menuOverlay.classList.remove("show");
   window.scrollTo({top:0,behavior:"smooth"});
 }));
+
+
+document.querySelectorAll(".depth-mode").forEach(btn=>btn.addEventListener("click",()=>{
+  depthMode=btn.dataset.ratio;
+  document.querySelectorAll(".depth-mode").forEach(b=>b.classList.toggle("active",b===btn));
+  updateDepth();
+  calculate();
+}));
+depth.addEventListener("input",()=>{if(depthMode==="manual")calculate()});
+
 function sgCalculate(){
   const shape=$("sgShape").value, w=n($("knownWeight").value), a=n($("sgMin").value), b=n($("sgMax").value), d=n($("sgDepth").value);
   const f=SHAPE_FACTORS[shape]||0.0061;
@@ -246,7 +317,7 @@ function showDetail(id){
 $("closeModal").addEventListener("click",()=>$("detailModal").classList.remove("show"));
 $("detailModal").addEventListener("click",e=>{if(e.target===$("detailModal"))$("detailModal").classList.remove("show")});
 
-populate();updateDepth();calculate();renderLibrary();
+populate();updateShapeFields();updateDepth();calculate();renderLibrary();
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
   window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));
 }

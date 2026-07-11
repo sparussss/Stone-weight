@@ -275,13 +275,46 @@ html,body{background:radial-gradient(circle at 50% -120px,#18345e 0,#090d14 42%,
   }
 }
 
+
+/* v1.2.3 aligned gemstone row */
+.input-gemstone-row{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:7px;
+  align-items:start;
+  margin-top:-4px;
+  margin-bottom:7px;
+}
+.input-gemstone-label{
+  grid-column:1 / 2;
+  min-height:46px;
+  justify-content:flex-start;
+  padding-top:0;
+}
+.input-gemstone-label .section-title{margin:0 0 3px}
+.input-gemstone-label span{line-height:1.1}
+.input-gemstone-control{
+  grid-column:2 / 5;
+}
+.input-gemstone-control .stone-picker-btn{
+  width:100%;
+  min-height:46px;
+}
+@media(max-width:390px){
+  .input-gemstone-row{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:6px;
+    margin-top:-5px;
+  }
+}
+
 </style>
 </head>
 <body>
 <div class="app">
   <header class="header">
   <div class="header-row">
-    <div><h1>Stone Weight</h1><small>Version 1.2.2 · Picker Fix</small></div>
+    <div><h1>Stone Weight</h1><small>Version 1.2.3 · Layout & Speed Fix</small></div>
     <button id="menuBtn" class="menu-btn" aria-label="Open menu">☰</button>
   </div>
 </header>
@@ -438,12 +471,12 @@ const SHAPE_ICONS={
 "Princess":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="10" y="10" width="44" height="44"/></svg>`,
 "Marquise":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M32 4C43 15 49 24 49 32S43 49 32 60C21 49 15 40 15 32S21 15 32 4z"/></svg>`,
 "Trillion":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
-<path d="M32 6
-C38 8 50 18 57 29
-C61 36 58 47 49 53
-C41 59 23 59 15 53
-C6 47 3 36 7 29
-C14 18 26 8 32 6z"/>
+<path d="M32 5
+C43 8 53 18 59 30
+C63 39 57 51 46 57
+C38 61 26 61 18 57
+C7 51 1 39 5 30
+C11 18 21 8 32 5Z"/>
 </svg>`,
 "Cabochon":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M10 43C14 24 22 14 32 14s18 10 22 29"/><path d="M10 43h44"/></svg>`
 };
@@ -627,8 +660,18 @@ $("stoneModal").addEventListener("click",e=>{if(e.target===$("stoneModal"))$("st
 function renderHomeShapeGrid(){
   const order=["Round","Oval","Pear","Heart","Emerald","Cushion","Princess","Square","Marquise","Trillion","Cabochon"];
   const grid=$("homeShapeGrid");
-  grid.innerHTML=order.map(name=>`<button type="button" class="home-shape-btn ${shapeSelect.value===name?"active":""}" data-shape="${name}"><span class="home-shape-icon">${SHAPE_ICONS[name]}</span><span>${shapeLabel(name)}</span></button>`).join("");
-  grid.querySelectorAll(".home-shape-btn").forEach(btn=>btn.addEventListener("click",()=>{shapeSelect.value=btn.dataset.shape;updateShapeFields();updateDepth();calculate();updateShapeDisplay();}));
+  if(!grid.dataset.ready){
+    grid.innerHTML=order.map(name=>`<button type="button" class="home-shape-btn" data-shape="${name}"><span class="home-shape-icon">${SHAPE_ICONS[name]}</span><span>${shapeLabel(name)}</span></button>`).join("");
+    grid.querySelectorAll(".home-shape-btn").forEach(btn=>btn.addEventListener("click",()=>{
+      shapeSelect.value=btn.dataset.shape;
+      updateShapeFields();
+      updateDepth();
+      calculate();
+      updateShapeDisplay();
+    }));
+    grid.dataset.ready="1";
+  }
+  grid.querySelectorAll(".home-shape-btn").forEach(btn=>btn.classList.toggle("active",btn.dataset.shape===shapeSelect.value));
 }
 function updateShapeDisplay(){renderHomeShapeGrid();}
 function updateShapeFields(){
@@ -638,6 +681,12 @@ function updateShapeFields(){
   if(isRound) maxDim.value=minDim.value;
 }
 shapeSelect.addEventListener("change",()=>{updateShapeFields();updateDepth();calculate()});
+
+
+let libraryRendered=false;
+document.querySelectorAll('[data-menu-page="libraryPage"]').forEach(btn=>btn.addEventListener("click",()=>{
+  if(!libraryRendered){renderLibrary();libraryRendered=true;}
+}));
 
 const menuOverlay=$("menuOverlay");
 $("menuBtn").addEventListener("click",()=>menuOverlay.classList.add("show"));

@@ -1,7 +1,7 @@
 {
   "name": "Stone Weight",
   "short_name": "Stone Weight",
-  "description": "Gemstone weight estimation PWA",
+  "description": "Gemstone weight estimation PWA with calibrated shape factors",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

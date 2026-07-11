@@ -199,13 +199,26 @@ html,body{background:radial-gradient(circle at 50% -120px,#18345e 0,#090d14 42%,
   .note{font-size:10px;line-height:1.35;margin-top:8px}
 }
 
+
+/* v1.2 */
+.home-shape-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.home-shape-btn{min-height:73px;border:1px solid #31445e;border-radius:13px;background:#182436;color:#b7c8dc;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:7px 3px;font-size:10.5px;font-weight:750}
+.home-shape-btn.active{border-color:#62a7ff;background:#173d72;color:#fff;box-shadow:0 0 0 2px #1680ff2e}
+.home-shape-icon{width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:#8fc0ff}
+.home-shape-icon svg{width:34px;height:34px}.home-shape-btn.active .home-shape-icon{color:#fff}
+.option-grid{grid-template-columns:1fr 1fr .72fr}.quantity-compact{text-align:center}
+.menu-notice{margin:7px 0;border:1px solid #31445e;border-radius:13px;background:#172131;color:#d9e4f2}
+.menu-notice summary{padding:13px 14px;cursor:pointer;font-weight:750;list-style:none}.menu-notice summary::-webkit-details-marker{display:none}
+.menu-notice p{margin:0;padding:0 14px 14px;color:#aebdd0;font-size:12px;line-height:1.5}
+@media(max-width:390px){.home-shape-grid{gap:6px}.home-shape-btn{min-height:68px;font-size:10px;padding:6px 2px}.home-shape-icon,.home-shape-icon svg{width:31px;height:31px}.option-grid{grid-template-columns:1fr 1fr .68fr;gap:6px}.option-grid .control{padding-left:7px;padding-right:7px;font-size:12px}}
+
 </style>
 </head>
 <body>
 <div class="app">
   <header class="header">
   <div class="header-row">
-    <div><h1>Stone Weight</h1><small>Version 1.1.6 · Compact Layout</small></div>
+    <div><h1>Stone Weight</h1><small>Version 1.2.0 · Direct Shape Grid</small></div>
     <button id="menuBtn" class="menu-btn" aria-label="Open menu">☰</button>
   </div>
 </header>
@@ -230,50 +243,27 @@ html,body{background:radial-gradient(circle at 50% -120px,#18345e 0,#090d14 42%,
     </section>
 <section class="input-dock">
       <h2 class="section-title">Input</h2>
-      <div class="grid2">
-        
-<div class="field"><label>Gemstone</label>
+      <div class="field"><label>Gemstone</label>
   <button id="stonePickerBtn" class="control stone-picker-btn" type="button">
-    <span class="stone-picker-main">
-      <span id="stonePickerName">Amethyst (Quartz)</span>
-      <small id="stonePickerSG">S.G. 2.66</small>
-    </span>
+    <span class="stone-picker-main"><span id="stonePickerName">Amethyst (Quartz)</span><small id="stonePickerSG">S.G. 2.66</small></span>
     <span class="stone-chevron">⌄</span>
   </button>
   <select id="stoneSelect" class="control" hidden></select>
 </div>
-
-        
-<div class="field"><label>Shape</label>
-  <button id="shapePickerBtn" class="control shape-picker-btn" type="button">
-    <span id="shapePickerIcon" class="shape-current-icon"></span>
-    <span id="shapePickerText">Round</span>
-    <span class="shape-chevron">⌄</span>
-  </button>
+<div class="field shape-home-field"><label>Shape</label>
+  <div id="homeShapeGrid" class="home-shape-grid"></div>
   <select id="shapeSelect" class="control" hidden>
-    <option value="Round">Round</option>
-    <option value="Oval">Oval</option>
-    <option value="Emerald">Emerald</option>
-    <option value="Marquise">Marquise</option>
-    <option value="Heart">Heart</option>
-    <option value="Trillion">Trillion</option>
-    <option value="Pear">Pear</option>
-    <option value="Cushion">Cushion</option>
-    <option value="Square">Princess</option>
-    <option value="Cabochon">Cabochon</option>
-    <option value="Princess">Square</option>
+    <option value="Round">Round</option><option value="Oval">Oval</option><option value="Pear">Pear</option><option value="Heart">Heart</option>
+    <option value="Emerald">Octagon</option><option value="Cushion">Cushion</option><option value="Princess">Square</option><option value="Square">Princess</option>
+    <option value="Marquise">Marquise</option><option value="Trillion">Trillion</option><option value="Cabochon">Cabochon</option>
   </select>
 </div>
-
-      </div>
-      <div class="grid3">
+<div class="grid3">
         <div class="field" id="minField"><label id="minLabel">Min. Width</label><div class="input-wrap"><input id="minDim" class="control" type="number" inputmode="decimal" min="0.5" max="100" step="0.01" value="" placeholder="Enter"><span class="unit">mm</span></div></div>
         <div class="field" id="maxField"><label>Max. Length</label><div class="input-wrap"><input id="maxDim" class="control" type="number" inputmode="decimal" min="0.5" max="100" step="0.01" value="" placeholder="Enter"><span class="unit">mm</span></div></div>
         <div class="field"><label>Depth</label><div class="input-wrap"><input id="depth" class="control" type="number" inputmode="decimal" min="0.5" max="100" step="0.01" value="" placeholder="Auto"><span class="unit">mm</span></div></div>
       </div>
-      <div class="field quantity-early"><label>Quantity</label><input id="quantity" class="control" type="number" inputmode="numeric" min="1" max="99999" step="1" value="" placeholder="Optional"></div>
-
-      <div class="field">
+<div class="field">
         <label>Depth Calculation</label>
         <div class="depth-modes" role="group" aria-label="Depth calculation mode">
           <button type="button" class="depth-mode active" data-ratio="0.70">70%</button>
@@ -283,26 +273,11 @@ html,body{background:radial-gradient(circle at 50% -120px,#18345e 0,#090d14 42%,
         </div>
       </div>
 
-      <div class="grid2">
-        <div class="field"><label>Bulge</label>
-          <select id="bulgeSelect" class="control">
-            <option value="1.00" selected>Medium</option>
-            <option value="1.02">Visible</option>
-            <option value="1.04">Obvious</option>
-            <option value="1.06">Extreme</option>
-          </select>
-        </div>
-        <div class="field"><label>Girdle</label>
-          <select id="girdleSelect" class="control">
-            <option value="0.98">Thin</option>
-            <option value="1.00">Medium</option>
-            <option value="1.03" selected>Thick</option>
-            <option value="1.05">Very Thick</option>
-            <option value="1.08">Extremely Thick</option>
-          </select>
-        </div>
-      </div>
-<div class="note">This is an estimated weight based on dimensions, specific gravity and standard shape factors. Actual weight varies with cutting, pavilion profile, girdle and measurement accuracy.</div>
+      <div class="grid3 option-grid">
+<div class="field"><label>Bulge</label><select id="bulgeSelect" class="control"><option value="1.00" selected>Medium</option><option value="1.02">Visible</option><option value="1.04">Obvious</option><option value="1.06">Extreme</option></select></div>
+<div class="field"><label>Girdle</label><select id="girdleSelect" class="control"><option value="0.98">Thin</option><option value="1.00">Medium</option><option value="1.03" selected>Thick</option><option value="1.05">Very Thick</option><option value="1.08">Extremely Thick</option></select></div>
+<div class="field"><label>Quantity</label><input id="quantity" class="control quantity-compact" type="number" inputmode="numeric" min="1" max="99999" step="1" value="" placeholder="Optional"></div>
+</div>
     </section>
   </main>
 
@@ -340,22 +315,13 @@ html,body{background:radial-gradient(circle at 50% -120px,#18345e 0,#090d14 42%,
     <button id="closeStoneModal" class="btn btn-secondary stone-close">Close</button>
   </div>
 </div>
-
-<div id="shapeModal" class="shape-modal" aria-hidden="true">
-  <div class="shape-sheet">
-    <div class="sheet-handle"></div>
-    <div class="shape-sheet-title">Select Shape</div>
-    <div id="shapeGrid" class="shape-grid"></div>
-    <button id="closeShapeModal" class="btn btn-secondary shape-close">Close</button>
-  </div>
-</div>
-
 <div id="menuOverlay" class="menu-overlay">
   <div class="menu-panel">
     <h2>Menu</h2>
     <button class="menu-item active" data-menu-page="weightPage">Weight Estimation</button>
     <button class="menu-item" data-menu-page="sgPage">S.G. Estimation</button>
     <button class="menu-item" data-menu-page="libraryPage">Stone Library</button>
+    <details class="menu-notice"><summary>Estimation Notice</summary><p>This is an estimated weight based on dimensions, specific gravity and standard shape factors. Actual weight varies with cutting, pavilion profile, girdle and measurement accuracy.</p></details>
     <button id="closeMenu" class="menu-item">Close</button>
   </div>
 </div>
@@ -378,6 +344,7 @@ const SHAPE_FACTORS={
   "Trillion":0.001860
 };
 const SHAPE_LABELS={
+  "Emerald":"Octagon",
   "Square":"Princess",
   "Princess":"Square"
 };
@@ -390,46 +357,18 @@ const quantity=$("quantity"), bulgeSelect=$("bulgeSelect"), girdleSelect=$("gird
 
 
 const SHAPE_ICONS={
-"Round":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><circle cx="32" cy="32" r="27"/><circle cx="32" cy="32" r="16"/><path d="M32 5l8 11 13-3-2 13 8 6-8 6 2 13-13-3-8 11-8-11-13 3 2-13-8-6 8-6-2-13 13 3z"/><path d="M32 16l8 6 10 10-10 10-8 6-8-6-10-10 10-10z"/></svg>`,
-"Oval":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><ellipse cx="32" cy="32" rx="22" ry="28"/><ellipse cx="32" cy="32" rx="12" ry="18"/><path d="M32 4l8 12 9-3 1 13 4 6-4 6-1 13-9-3-8 12-8-12-9 3-1-13-4-6 4-6 1-13 9 3z"/><path d="M32 14l8 8 6 10-6 10-8 8-8-8-6-10 6-10z"/></svg>`,
-"Emerald":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><path d="M19 5h26l14 14v26L45 59H19L5 45V19z"/><path d="M21 12h22l9 9v22l-9 9H21l-9-9V21z"/><rect x="21" y="21" width="22" height="22"/><path d="M5 19l16 2M59 19l-16 2M5 45l16-2M59 45l-16-2"/></svg>`,
-"Marquise":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round">
-<path d="M32 2C40 12 45 22 45 32S40 52 32 62C24 52 19 42 19 32S24 12 32 2z"/>
-<path d="M32 10C37 18 40 25 40 32S37 46 32 54C27 46 24 39 24 32S27 18 32 10z"/>
-<path d="M32 2v60"/>
-<path d="M19 32h26"/>
-<path d="M23 18l9 14 9-14"/>
-<path d="M23 46l9-14 9 14"/>
-<path d="M27 9l5 23 5-23"/>
-<path d="M27 55l5-23 5 23"/>
-</svg>`,
-"Heart":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><path d="M32 59C20 49 5 39 5 22 5 10 20 5 32 17 44 5 59 10 59 22 59 39 44 49 32 59z"/><path d="M32 49C24 42 14 34 14 23 14 16 23 13 32 22 41 13 50 16 50 23 50 34 40 42 32 49z"/><path d="M32 17v42M11 15l21 17 21-17M8 30l24 2 24-2M17 43l15-11 15 11"/></svg>`,
-"Pear":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><path d="M32 3C22 16 8 28 8 42c0 12 10 19 24 19s24-7 24-19C56 28 42 16 32 3z"/><path d="M32 13C25 23 17 31 17 41c0 7 6 11 15 11s15-4 15-11C47 31 39 23 32 13z"/><path d="M32 3v58M12 32l20 10 20-10M17 48l15-6 15 6M20 22l12 20 12-20"/></svg>`,
-"Cushion":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><path d="M14 5h36c5 0 9 4 9 9v36c0 5-4 9-9 9H14c-5 0-9-4-9-9V14c0-5 4-9 9-9z"/><path d="M18 13h28c3 0 5 2 5 5v28c0 3-2 5-5 5H18c-3 0-5-2-5-5V18c0-3 2-5 5-5z"/><path d="M13 13l12 12h14l12-12M13 51l12-12h14l12 12M13 13l12 12v14L13 51M51 13L39 25v14l12 12"/></svg>`,
-"Square":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><rect x="5" y="5" width="54" height="54"/><rect x="14" y="14" width="36" height="36"/><rect x="22" y="22" width="20" height="20"/><path d="M5 5l17 17M59 5L42 22M5 59l17-17M59 59L42 42"/></svg>`,
-"Princess":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><rect x="5" y="5" width="54" height="54"/><rect x="13" y="13" width="38" height="38"/><rect x="23" y="23" width="18" height="18"/><path d="M5 5l27 27L59 5M5 59l27-27 27 27M5 5l18 18M59 5L41 23M5 59l18-18M59 59L41 41"/></svg>`,
-"Cabochon":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><ellipse cx="32" cy="32" rx="27" ry="22"/><ellipse cx="32" cy="32" rx="19" ry="14"/><path d="M8 38c8-9 16-13 24-13s16 4 24 13M13 45c7-6 13-9 19-9s12 3 19 9"/><path d="M32 10v15M12 25l14 5M52 25l-14 5"/></svg>`,
-"Trillion":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round" stroke-linecap="round">
-<path d="M32 4
-C44 7 55 18 59 31
-C61 42 54 54 44 59
-C36 63 28 63 20 59
-C10 54 3 42 5 31
-C9 18 20 7 32 4z"/>
-<path d="M32 13
-C41 16 48 23 51 32
-C52 39 47 47 40 51
-C35 54 29 54 24 51
-C17 47 12 39 13 32
-C16 23 23 16 32 13z"/>
-<path d="M32 4v28"/>
-<path d="M5 31c10 1 19 2 27 1 8 1 17 0 27-1"/>
-<path d="M20 59l12-27 12 27"/>
-<path d="M18 18l14 14 14-14"/>
-<path d="M11 43l21-11 21 11"/>
-</svg>`
+"Round":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="32" cy="32" r="23"/></svg>`,
+"Oval":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2"><ellipse cx="32" cy="32" rx="19" ry="25"/></svg>`,
+"Pear":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M32 7C25 17 13 29 13 42c0 10 8 16 19 16s19-6 19-16C51 29 39 17 32 7z"/></svg>`,
+"Heart":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M32 56C22 48 9 39 9 24c0-9 11-14 23-3 12-11 23-6 23 3 0 15-13 24-23 32z"/></svg>`,
+"Emerald":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M21 7h22l8 8v34l-8 8H21l-8-8V15z"/></svg>`,
+"Cushion":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="10" y="10" width="44" height="44" rx="11"/></svg>`,
+"Square":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M15 8h34l7 7v34l-7 7H15l-7-7V15z"/></svg>`,
+"Princess":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="10" y="10" width="44" height="44"/></svg>`,
+"Marquise":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M32 4C43 15 49 24 49 32S43 49 32 60C21 49 15 40 15 32S21 15 32 4z"/></svg>`,
+"Trillion":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M32 7C42 11 51 20 56 31c4 9-2 21-12 25-8 4-16 4-24 0C10 52 4 40 8 31 13 20 22 11 32 7z"/></svg>`,
+"Cabochon":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M10 43C14 24 22 14 32 14s18 10 22 29"/><path d="M10 43h44"/></svg>`
 };
-
 function n(v){const x=parseFloat(v);return Number.isFinite(x)?x:0}
 
 const COMMON_STONE_NAMES=['Agate','Almandine (Garnet)','Amethyst (Quartz)','Aquamarine (Beryl)','Chalcedony (Quartz)','Citrine (Quartz)','Diamond','Diopside','Emerald (Beryl)','Iolite (Cordierite)','Kunzite (Spodumene)','Labradorite (Feldspar)','Lapis-Lazuli','Moonstone (Orthoclase Feldspar)','Morganite (Beryl)','Opal','Pearl (Natural & Cultured)','Peridot','Quartz','Rhodolite (Garnet)','Ruby (Corundum)','Rutile','Sapphire (Corundum)','Spinel','Tanzanite (Zoisite)','Topaz','Tourmaline','Turquoise'];
@@ -607,33 +546,13 @@ $("stoneSearch").addEventListener("input",e=>renderStonePicker(e.target.value));
 $("closeStoneModal").addEventListener("click",()=>$("stoneModal").classList.remove("show"));
 $("stoneModal").addEventListener("click",e=>{if(e.target===$("stoneModal"))$("stoneModal").classList.remove("show")});
 
-function renderShapePicker(){
-  const order=["Round","Oval","Emerald","Marquise","Heart","Pear","Cushion","Square","Cabochon","Princess","Trillion"];
-  $("shapeGrid").innerHTML=order.map(name=>`
-    <button type="button" class="shape-option ${shapeSelect.value===name?"active":""}" data-shape="${name}">
-      <span class="shape-svg">${SHAPE_ICONS[name]}</span><span>${shapeLabel(name)}</span>
-    </button>`).join("");
-  document.querySelectorAll(".shape-option").forEach(btn=>btn.addEventListener("click",()=>{
-    shapeSelect.value=btn.dataset.shape;
-    updateShapeFields();
-    updateDepth();
-    calculate();
-    updateShapeDisplay();
-    $("shapeModal").classList.remove("show");
-  }));
+function renderHomeShapeGrid(){
+  const order=["Round","Oval","Pear","Heart","Emerald","Cushion","Princess","Square","Marquise","Trillion","Cabochon"];
+  const grid=$("homeShapeGrid");
+  grid.innerHTML=order.map(name=>`<button type="button" class="home-shape-btn ${shapeSelect.value===name?"active":""}" data-shape="${name}"><span class="home-shape-icon">${SHAPE_ICONS[name]}</span><span>${shapeLabel(name)}</span></button>`).join("");
+  grid.querySelectorAll(".home-shape-btn").forEach(btn=>btn.addEventListener("click",()=>{shapeSelect.value=btn.dataset.shape;updateShapeFields();updateDepth();calculate();updateShapeDisplay();}));
 }
-function updateShapeDisplay(){
-  const name=shapeSelect.value;
-  $("shapePickerText").textContent=shapeLabel(name);
-  $("shapePickerIcon").innerHTML=SHAPE_ICONS[name]||"";
-}
-$("shapePickerBtn").addEventListener("click",()=>{
-  renderShapePicker();
-  $("shapeModal").classList.add("show");
-});
-$("closeShapeModal").addEventListener("click",()=>$("shapeModal").classList.remove("show"));
-$("shapeModal").addEventListener("click",e=>{if(e.target===$("shapeModal"))$("shapeModal").classList.remove("show")});
-
+function updateShapeDisplay(){renderHomeShapeGrid();}
 function updateShapeFields(){
   const isRound=shapeSelect.value==="Round";
   $("minLabel").textContent=isRound?"Diameter":"Min. Width";

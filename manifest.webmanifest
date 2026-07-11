@@ -1,11 +1,11 @@
 {
-  "name": "Gemstone Weight Estimator",
+  "name": "Stone Weight",
   "short_name": "Stone Weight",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#070a0f",
-  "theme_color": "#0b50b9",
+  "background_color": "#090d14",
+  "theme_color": "#090d14",
   "orientation": "portrait",
   "icons": [
     {

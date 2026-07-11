@@ -133,22 +133,12 @@ html,body{background:radial-gradient(circle at 50% -120px,#18345e 0,#090d14 42%,
 .header{position:sticky;background:#090d14e8;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:none;border-bottom:1px solid #ffffff12;padding-bottom:10px}
 .header-row h1{font-size:25px;letter-spacing:-.035em}.header-row small{font-size:11px;color:#a9b7c9}
 .menu-btn{background:#ffffff12;border:1px solid #ffffff14;border-radius:50%;font-size:21px}
-.top-nav{position:sticky;top:72px;z-index:19;display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:10px 14px 0;padding:5px;border:1px solid #ffffff12;border-radius:15px;background:#111925d9;backdrop-filter:blur(18px)}
-.top-nav-btn{border:0;min-height:38px;border-radius:11px;background:transparent;color:#98a7ba;font-weight:750}
-.top-nav-btn.active{background:#2b3d56;color:white;box-shadow:0 3px 12px #0005}
-.result-card,.input-dock,.card,.quick-card{border:1px solid #ffffff12;background:linear-gradient(160deg,#151e2b,#0e151f);box-shadow:0 15px 45px #0005}
+.result-card,.input-dock,.card{border:1px solid #ffffff12;background:linear-gradient(160deg,#151e2b,#0e151f);box-shadow:0 15px 45px #0005}
 .result-card{margin-top:12px}.hero{padding:20px}.kicker{color:#80baff}.weight{font-size:50px;letter-spacing:-.045em}.hero-image{border-color:#ffffff24;border-radius:18px}
 .summary{background:#0e1621}.summary b{font-size:17px}
 .input-dock{padding:16px}.section-title{font-size:12px;color:#7db7ff}
 .control{min-height:53px;border-color:#ffffff18;background:#1b2738;border-radius:14px}
 .field label{font-weight:650}.btn{border-radius:15px}
-.quick-card{margin:14px;border-radius:19px;padding:14px}
-.quick-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-weight:800}
-.quick-heading button{border:0;background:transparent;color:#7db7ff;font-size:12px}
-.quick-stones{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
-.quick-chip{flex:0 0 auto;max-width:210px;border:1px solid #ffffff16;border-radius:14px;background:#1b293d;color:white;padding:10px 12px;text-align:left;font-weight:700}
-.quick-chip span{color:#ffd65a;margin-right:5px}.quick-chip small{display:block;color:#91a5bf;margin-top:3px;font-size:11px}
-.quick-empty{color:#8291a6;font-size:12px;padding:4px}
 .depth-mode{border-color:#ffffff16;background:#1b2738;border-radius:13px}
 .depth-mode.active{background:#0a84ff;border-color:#5db0ff}
 .stone-sheet,.shape-sheet,.sheet{background:#111925;border:1px solid #ffffff12}
@@ -157,7 +147,18 @@ html,body{background:radial-gradient(circle at 50% -120px,#18345e 0,#090d14 42%,
 .favorite-btn.active{color:#ffd65a;background:#3b321b;border-color:#6b5a24}
 .shape-option{background:#182436;border-color:#ffffff18;border-radius:16px}
 .menu-panel{background:#101722e8;backdrop-filter:blur(20px)}
-@media(min-width:640px){.result-card,.input-dock,.quick-card,.card{margin-left:20px;margin-right:20px}.top-nav{margin-left:20px;margin-right:20px}}
+@media(min-width:640px){.result-card,.input-dock,.card{margin-left:20px;margin-right:20px}}
+
+
+/* v1.1.1 compact layout and reference-style shape icons */
+.result-card{margin-top:14px}
+.shape-option{min-height:88px;flex-direction:column;justify-content:center;gap:5px;text-align:center;padding:10px}
+.shape-option .shape-svg{width:62px;height:62px;flex:0 0 62px;color:#92bfff}
+.shape-option svg{width:62px;height:62px}
+.shape-current-icon{width:38px;height:38px;color:#92bfff}
+.shape-current-icon svg{width:38px;height:38px}
+.shape-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(min-width:560px){.shape-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
 </style>
 </head>
@@ -165,17 +166,10 @@ html,body{background:radial-gradient(circle at 50% -120px,#18345e 0,#090d14 42%,
 <div class="app">
   <header class="header">
   <div class="header-row">
-    <div><h1>Stone Weight</h1><small>Version 1.1 · Release Preview</small></div>
+    <div><h1>Stone Weight</h1><small>Version 1.1.1 · Shape Update</small></div>
     <button id="menuBtn" class="menu-btn" aria-label="Open menu">☰</button>
   </div>
 </header>
-
-  <nav class="top-nav" aria-label="Main navigation">
-    <button class="top-nav-btn active" data-menu-page="weightPage">Weight</button>
-    <button class="top-nav-btn" data-menu-page="sgPage">S.G.</button>
-    <button class="top-nav-btn" data-menu-page="libraryPage">Library</button>
-  </nav>
-
 <main id="weightPage" class="page active">
     <section class="result-card">
       <div class="hero">
@@ -195,17 +189,7 @@ html,body{background:radial-gradient(circle at 50% -120px,#18345e 0,#090d14 42%,
       </div>
       <div id="dimensionSummary" class="dimension-line">—</div>
     </section>
-
-
-    <section class="quick-card">
-      <div class="quick-heading">
-        <span>Quick Access</span>
-        <button id="clearRecentBtn" type="button">Clear recent</button>
-      </div>
-      <div id="quickStones" class="quick-stones"></div>
-    </section>
-
-    <section class="input-dock">
+<section class="input-dock">
       <h2 class="section-title">Input</h2>
       <div class="grid2">
         
@@ -233,6 +217,7 @@ html,body{background:radial-gradient(circle at 50% -120px,#18345e 0,#090d14 42%,
     <option value="Emerald">Emerald</option>
     <option value="Marquise">Marquise</option>
     <option value="Heart">Heart</option>
+    <option value="Trillion">Trillion</option>
     <option value="Pear">Pear</option>
     <option value="Cushion">Cushion</option>
     <option value="Square">Square</option>
@@ -351,7 +336,8 @@ const SHAPE_FACTORS={
   "Cushion":0.002400,
   "Square":0.002420,
   "Cabochon":0.002700,
-  "Princess":0.002900
+  "Princess":0.002900,
+  "Trillion":0.001860
 };
 const $=id=>document.getElementById(id);
 const stoneSelect=$("stoneSelect"), shapeSelect=$("shapeSelect");
@@ -361,57 +347,17 @@ const quantity=$("quantity"), bulgeSelect=$("bulgeSelect"), girdleSelect=$("gird
 
 
 const SHAPE_ICONS={
-"Round":`<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
-<circle cx="31" cy="32" r="25"/><polygon points="31,8 42,12 51,21 55,32 51,43 42,52 31,56 20,52 11,43 7,32 11,21 20,12"/>
-<polygon points="31,17 41,21 46,32 41,43 31,47 21,43 16,32 21,21"/>
-<path d="M31 8v9M55 32h-9M31 56v-9M7 32h9M11 21l10 0M51 21l-10 0M11 43h10M51 43H41"/>
-<path d="M77 32L98 10v44L77 32zM77 32h21M85 24l13-14M85 40l13 14M92 17v30"/>
-</svg>`,
-"Oval":`<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
-<ellipse cx="31" cy="32" rx="22" ry="28"/><polygon points="31,5 42,10 50,20 53,32 50,44 42,54 31,59 20,54 12,44 9,32 12,20 20,10"/>
-<ellipse cx="31" cy="32" rx="13" ry="19"/><path d="M31 5v8M53 32h-9M31 59v-8M9 32h9M14 18l9 6M48 18l-9 6M14 46l9-6M48 46l-9-6"/>
-<path d="M76 32L98 11v42L76 32zM76 32h22M85 24l13-13M85 40l13 13M91 18v28"/>
-</svg>`,
-"Emerald":`<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
-<path d="M18 5h26l9 9v36l-9 9H18l-9-9V14z"/><path d="M21 12h20l5 5v30l-5 5H21l-5-5V17z"/>
-<rect x="23" y="19" width="16" height="26"/><path d="M9 14l7 3M53 14l-7 3M9 50l7-3M53 50l-7-3"/>
-<path d="M75 15l22-8v50l-22-8zM75 15v34M75 32h22M83 18l14-11M83 46l14 11M89 13v38"/>
-</svg>`,
-"Marquise":`<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
-<path d="M31 4C47 14 56 23 59 32 56 41 47 50 31 60 15 50 6 41 3 32 6 23 15 14 31 4z"/>
-<path d="M31 12C42 20 48 26 50 32 48 38 42 44 31 52 20 44 14 38 12 32 14 26 20 20 31 12z"/>
-<path d="M31 4v56M3 32h56M12 18l19 14 19-14M12 46l19-14 19 14"/>
-<path d="M76 32L98 9v46L76 32zM76 32h22M85 23l13-14M85 41l13 14M92 16v32"/>
-</svg>`,
-"Heart":`<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
-<path d="M31 59S5 45 5 23C5 10 20 5 31 17 42 5 57 10 57 23 57 45 31 59 31 59z"/>
-<path d="M31 17v42M12 18l19 14 19-14M8 33h46M18 47l13-15 13 15"/>
-<path d="M76 32L98 11v42L76 32zM76 32h22M84 23l14-12M84 41l14 12M91 17v30"/>
-</svg>`,
-"Pear":`<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
-<path d="M31 4C27 16 8 25 8 42 8 54 19 60 31 60s23-6 23-18C54 25 35 16 31 4z"/>
-<path d="M31 13C27 22 17 28 17 41c0 7 6 11 14 11s14-4 14-11C45 28 35 22 31 13z"/>
-<path d="M31 4v56M12 37h38M17 23l14 14 14-14M18 49l13-12 13 12"/>
-<path d="M76 32L98 10v44L76 32zM76 32h22M85 23l13-13M85 41l13 13M91 17v30"/>
-</svg>`,
-"Cushion":`<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
-<path d="M17 7h28c8 0 12 4 12 12v26c0 8-4 12-12 12H17C9 57 5 53 5 45V19C5 11 9 7 17 7z"/>
-<path d="M20 14h22c5 0 8 3 8 8v20c0 5-3 8-8 8H20c-5 0-8-3-8-8V22c0-5 3-8 8-8z"/>
-<path d="M5 19l15 3M57 19l-15 3M5 45l15-3M57 45l-15-3M20 14l11 11 11-11M20 50l11-11 11 11"/>
-<path d="M76 32L98 10v44L76 32zM76 32h22M85 23l13-13M85 41l13 13M92 17v30"/>
-</svg>`,
-"Square":`<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
-<rect x="7" y="7" width="50" height="50"/><rect x="14" y="14" width="36" height="36"/><path d="M7 7l7 7M57 7l-7 7M7 57l7-7M57 57l-7-7"/>
-<path d="M75 13l22-6v50l-22-6zM75 13v38M75 32h22M83 16l14-9M83 48l14 9"/>
-</svg>`,
-"Cabochon":`<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
-<ellipse cx="31" cy="34" rx="25" ry="19"/><path d="M7 34C10 16 20 8 31 8s21 8 24 26M7 40h48"/>
-<path d="M76 50V14h10c10 0 18 8 18 18s-8 18-18 18H76zM76 32h28"/>
-</svg>`,
-"Princess":`<svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
-<rect x="6" y="6" width="52" height="52"/><rect x="13" y="13" width="38" height="38"/><path d="M6 6l26 26L58 6M6 58l26-26 26 26M13 13l19 19 19-19M13 51l19-19 19 19"/>
-<path d="M76 32L98 9v46L76 32zM76 32h22M84 22l14-13M84 42l14 13M91 16v32"/>
-</svg>`
+"Round":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><circle cx="32" cy="32" r="27"/><circle cx="32" cy="32" r="16"/><path d="M32 5l8 11 13-3-2 13 8 6-8 6 2 13-13-3-8 11-8-11-13 3 2-13-8-6 8-6-2-13 13 3z"/><path d="M32 16l8 6 10 10-10 10-8 6-8-6-10-10 10-10z"/></svg>`,
+"Oval":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><ellipse cx="32" cy="32" rx="22" ry="28"/><ellipse cx="32" cy="32" rx="12" ry="18"/><path d="M32 4l8 12 9-3 1 13 4 6-4 6-1 13-9-3-8 12-8-12-9 3-1-13-4-6 4-6 1-13 9 3z"/><path d="M32 14l8 8 6 10-6 10-8 8-8-8-6-10 6-10z"/></svg>`,
+"Emerald":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><path d="M19 5h26l14 14v26L45 59H19L5 45V19z"/><path d="M21 12h22l9 9v22l-9 9H21l-9-9V21z"/><rect x="21" y="21" width="22" height="22"/><path d="M5 19l16 2M59 19l-16 2M5 45l16-2M59 45l-16-2"/></svg>`,
+"Marquise":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><path d="M32 3C49 13 58 23 61 32 58 41 49 51 32 61 15 51 6 41 3 32 6 23 15 13 32 3z"/><path d="M32 12C43 20 49 26 51 32 49 38 43 44 32 52 21 44 15 38 13 32 15 26 21 20 32 12z"/><path d="M32 3v58M3 32h58M13 18l19 14 19-14M13 46l19-14 19 14"/></svg>`,
+"Heart":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><path d="M32 59C20 49 5 39 5 22 5 10 20 5 32 17 44 5 59 10 59 22 59 39 44 49 32 59z"/><path d="M32 49C24 42 14 34 14 23 14 16 23 13 32 22 41 13 50 16 50 23 50 34 40 42 32 49z"/><path d="M32 17v42M11 15l21 17 21-17M8 30l24 2 24-2M17 43l15-11 15 11"/></svg>`,
+"Pear":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><path d="M32 3C22 16 8 28 8 42c0 12 10 19 24 19s24-7 24-19C56 28 42 16 32 3z"/><path d="M32 13C25 23 17 31 17 41c0 7 6 11 15 11s15-4 15-11C47 31 39 23 32 13z"/><path d="M32 3v58M12 32l20 10 20-10M17 48l15-6 15 6M20 22l12 20 12-20"/></svg>`,
+"Cushion":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><path d="M14 5h36c5 0 9 4 9 9v36c0 5-4 9-9 9H14c-5 0-9-4-9-9V14c0-5 4-9 9-9z"/><path d="M18 13h28c3 0 5 2 5 5v28c0 3-2 5-5 5H18c-3 0-5-2-5-5V18c0-3 2-5 5-5z"/><path d="M13 13l12 12h14l12-12M13 51l12-12h14l12 12M13 13l12 12v14L13 51M51 13L39 25v14l12 12"/></svg>`,
+"Square":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><rect x="5" y="5" width="54" height="54"/><rect x="14" y="14" width="36" height="36"/><rect x="22" y="22" width="20" height="20"/><path d="M5 5l17 17M59 5L42 22M5 59l17-17M59 59L42 42"/></svg>`,
+"Princess":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><rect x="5" y="5" width="54" height="54"/><rect x="13" y="13" width="38" height="38"/><rect x="23" y="23" width="18" height="18"/><path d="M5 5l27 27L59 5M5 59l27-27 27 27M5 5l18 18M59 5L41 23M5 59l18-18M59 59L41 41"/></svg>`,
+"Cabochon":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><ellipse cx="32" cy="32" rx="27" ry="22"/><ellipse cx="32" cy="32" rx="19" ry="14"/><path d="M8 38c8-9 16-13 24-13s16 4 24 13M13 45c7-6 13-9 19-9s12 3 19 9"/><path d="M32 10v15M12 25l14 5M52 25l-14 5"/></svg>`,
+"Trillion":`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><path d="M32 4L60 56H4z"/><path d="M32 14l18 34H14z"/><path d="M32 4v28M4 56l28-24 28 24M14 48l18-16 18 16"/><path d="M32 14L14 48M32 14l18 34"/></svg>`
 };
 
 function n(v){const x=parseFloat(v);return Number.isFinite(x)?x:0}
@@ -445,6 +391,7 @@ function addRecentStone(id){
 }
 function stoneById(id){return STONES.find(s=>String(s.id)===String(id))}
 function renderQuickStones(){
+  if(!$("quickStones")) return;
   const favorites=readNumberList(FAVORITES_KEY).map(stoneById).filter(Boolean).slice(0,4);
   const recent=readNumberList(RECENT_KEY).map(stoneById).filter(Boolean).filter(s=>!favorites.some(f=>String(f.id)===String(s.id))).slice(0,4);
   const items=[...favorites,...recent];
@@ -551,16 +498,17 @@ function calculate(){
     maxDim.value=minDim.value;
   }
   const min=n(minDim.value), max=n(maxDim.value), dep=n(depth.value), qty=Math.max(1,Math.round(n(quantity.value)||1));
-  const factor=SHAPE_FACTORS[shape]||0.0061;
+  const factor=SHAPE_FACTORS[shape];
   const girdle=n(girdleSelect.value)||1, bulge=n(bulgeSelect.value)||1;
+  const calibrated=Number.isFinite(factor);
   let ct=0;
-  if(min>0&&max>0&&dep>0) ct=min*max*dep*factor*n(s.sg_typical)*girdle*bulge;
+  if(calibrated&&min>0&&max>0&&dep>0) ct=min*max*dep*factor*n(s.sg_typical)*girdle*bulge;
   const total=ct*qty;
   $("resultStone").textContent=normalizeStoneName(s.name);$("resultShape").textContent=shape;
-  $("stoneImage").src=s.image||"";$("singleWeight").textContent=ct.toFixed(3);
+  $("stoneImage").src=s.image||"";$("singleWeight").textContent=calibrated?ct.toFixed(3):"—";
   $("quantitySummary").textContent=quantity.value ? qty+(qty===1?" pc":" pcs") : "—";
-  $("totalWeight").textContent=total.toFixed(3)+" ct";$("gramWeight").textContent=(total*0.2).toFixed(3)+" g";
-  $("dimensionSummary").textContent=ct?`${min.toFixed(2)} × ${max.toFixed(2)} × ${dep.toFixed(2)} mm · Range ${(ct*0.88).toFixed(2)}–${(ct*1.12).toFixed(2)} ct · S.G. ${n(s.sg_typical).toFixed(2)}`:"Enter dimensions to calculate";
+  $("totalWeight").textContent=calibrated?total.toFixed(3)+" ct":"—";$("gramWeight").textContent=calibrated?(total*0.2).toFixed(3)+" g":"—";
+  $("dimensionSummary").textContent=!calibrated?"General estimation using the same factor as Pear (0.001860).":ct?`${min.toFixed(2)} × ${max.toFixed(2)} × ${dep.toFixed(2)} mm · Range ${(ct*0.88).toFixed(2)}–${(ct*1.12).toFixed(2)} ct · S.G. ${n(s.sg_typical).toFixed(2)}`:"Enter dimensions to calculate";
 }
 function reset(){
   const amy=STONES.find(s=>s.name==="Amethyst (Quartz)");
@@ -580,10 +528,6 @@ $("resetBtn").addEventListener("click",reset);
 
 
 
-$("clearRecentBtn").addEventListener("click",()=>{
-  writeNumberList(RECENT_KEY,[]);
-  renderQuickStones();
-});
 $("stonePickerBtn").addEventListener("click",()=>{
   $("stoneSearch").value="";
   renderStonePicker();
@@ -595,7 +539,7 @@ $("closeStoneModal").addEventListener("click",()=>$("stoneModal").classList.remo
 $("stoneModal").addEventListener("click",e=>{if(e.target===$("stoneModal"))$("stoneModal").classList.remove("show")});
 
 function renderShapePicker(){
-  const order=["Round","Oval","Emerald","Marquise","Heart","Pear","Cushion","Square","Cabochon","Princess"];
+  const order=["Round","Oval","Emerald","Marquise","Heart","Pear","Cushion","Square","Cabochon","Princess","Trillion"];
   $("shapeGrid").innerHTML=order.map(name=>`
     <button type="button" class="shape-option ${shapeSelect.value===name?"active":""}" data-shape="${name}">
       <span class="shape-svg">${SHAPE_ICONS[name]}</span><span>${name}</span>
@@ -653,8 +597,8 @@ depth.addEventListener("input",()=>{if(depthMode==="manual")calculate()});
 
 function sgCalculate(){
   const shape=$("sgShape").value, w=n($("knownWeight").value), a=n($("sgMin").value), b=n($("sgMax").value), d=n($("sgDepth").value);
-  const f=SHAPE_FACTORS[shape]||0.0061;
-  const sg=(w>0&&a>0&&b>0&&d>0)?w/(a*b*d*f):0;
+  const f=SHAPE_FACTORS[shape];
+  const sg=(Number.isFinite(f)&&w>0&&a>0&&b>0&&d>0)?w/(a*b*d*f):0;
   $("sgResult").textContent=sg?sg.toFixed(2):"—";
 }
 $("sgCalcBtn").addEventListener("click",sgCalculate);

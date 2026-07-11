@@ -102,6 +102,26 @@ select.control{appearance:none;background-image:linear-gradient(45deg,transparen
 .shape-close{width:100%;margin-top:14px}
 @media(max-width:370px){.shape-grid{grid-template-columns:1fr}}
 
+
+.stone-picker-btn{display:flex;align-items:center;gap:10px;text-align:left;cursor:pointer}
+.stone-picker-main{display:flex;flex-direction:column;min-width:0;flex:1}
+.stone-picker-main span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
+.stone-picker-main small{margin-top:3px;color:#a9bdd8;font-size:12px}
+.stone-chevron{font-size:20px;color:#a9c6ea}
+.stone-modal{position:fixed;inset:0;z-index:1120;background:#000b;display:none;align-items:flex-end}
+.stone-modal.show{display:flex}
+.stone-sheet{width:100%;max-height:90vh;overflow:auto;background:#121a26;border-radius:22px 22px 0 0;padding:14px 14px calc(18px + var(--safe-bottom))}
+.stone-sheet-title{font-size:19px;font-weight:800;margin:0 0 12px}
+.stone-search{position:sticky;top:0;z-index:2;margin-bottom:12px;background:#22324a}
+.stone-section-title{padding:10px 4px 7px;color:#8fbef9;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.stone-divider{height:1px;background:#2b3a50;margin:12px 0 4px}
+.stone-option{width:100%;min-height:58px;margin-bottom:8px;border:1px solid #344b69;border-radius:13px;background:#1b283b;color:white;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 13px;text-align:left}
+.stone-option.active{border-color:#66a8ff;background:#173d72;box-shadow:0 0 0 2px #1676ff2e}
+.stone-option-name{font-weight:700;line-height:1.25}
+.stone-option-sg{flex:0 0 auto;color:#b7cbe4;font-size:12px;font-weight:700}
+.stone-empty{padding:22px 8px;text-align:center;color:#91a0b4}
+.stone-close{width:100%;margin-top:12px}
+
 </style>
 </head>
 <body>
@@ -137,7 +157,18 @@ select.control{appearance:none;background-image:linear-gradient(45deg,transparen
     <section class="input-dock">
       <h2 class="section-title">Input</h2>
       <div class="grid2">
-        <div class="field"><label>Gemstone</label><select id="stoneSelect" class="control"><option value="1">Actinolite</option><option value="2">Agate</option><option value="3">Alabaster (Gypsum)</option><option value="4">Albite (Feldspar Group)</option><option value="5">Alexandrite (Chrysoberyl)</option><option value="6">Almandine (Garnet)</option><option value="7">Amazonite  (Feldspar Group)</option><option value="8">Amber</option><option value="9">Amblygonite</option><option value="10" selected>Amethyst (Quartz)</option><option value="11">Andalusite (Chiastolite)</option><option value="12">Apatite</option><option value="13">Apophyllite</option><option value="14">Aquamarine (Beryl)</option><option value="15">Aragonite</option><option value="16">Axinite</option><option value="17">Azurite</option><option value="18">Barite (Baryte)</option><option value="19">Benitoite</option><option value="20">Beryl</option><option value="21">Beryllonite</option><option value="22">Brazilianite</option><option value="23">Calcite</option><option value="24">Cassiterite</option><option value="25">Chalcedony (Quartz)</option><option value="26">Charoite</option><option value="27">Chrysoberyl</option><option value="28">Chrysocolla (Eilat Stone)</option><option value="29">Citrine (Quartz)</option><option value="30">Clinohumite</option><option value="31">Clinozoisite</option><option value="34">Copal</option><option value="32">Coral </option><option value="33">Coral (black horn coral)</option><option value="35">Corundum (Sapphire only)</option><option value="36">Cubic Zirconia</option><option value="37">Danburite</option><option value="38">Datolite</option><option value="39">Demantoid (Andradite Garnet)</option><option value="40">Diamond</option><option value="41">Diaspore</option><option value="42">Diopside</option><option value="43">Dioptase</option><option value="44">Dumortierite</option><option value="45">Ekanite</option><option value="46">Emerald (Beryl)</option><option value="47">Enstatite</option><option value="48">Epidote</option><option value="49">Euclase</option><option value="50">Fluorite</option><option value="51">G.G.G. (Gadolinium Gallium Garnet)</option><option value="52">Gahnite</option><option value="53">Glass</option><option value="54">Grossular (Garnet)</option><option value="55">Hambergite</option><option value="56">Hauyne</option><option value="57">Hematite</option><option value="58">Hemimorphite</option><option value="59">Hessonite (Garnet)</option><option value="60">Howlite</option><option value="61">Hydrogrossular (Garnet)</option><option value="62">Iolite (Cordierite)</option><option value="63">Ivory</option><option value="64">Jadeite</option><option value="65">Jet</option><option value="66">Kornerupine</option><option value="67">Kunzite (Spodumene)</option><option value="68">Kyanite</option><option value="69">Labradorite (Feldspar)</option><option value="70">Lapis-Lazuli</option><option value="71">Larimar (Pectolite)</option><option value="72">Lazulite</option><option value="73">Leucite</option><option value="74">Magnesite</option><option value="75">Malachite</option><option value="76">Marcasite</option><option value="77">Moissanite (Synthetic)</option><option value="78">Moldavite</option><option value="79">Moonstone (Orthoclase Feldspar)</option><option value="1001">Morganite (Beryl)</option><option value="80">Nephrite</option><option value="81">Obsidan</option><option value="82">Opal</option><option value="83">Pearl (Natural &amp; Cultured)</option><option value="84">Peridot</option><option value="85">Petalite</option><option value="86">Pezzottaite</option><option value="87">Phenakite</option><option value="88">Plastic</option><option value="89">Pollucite</option><option value="90">Prehnite</option><option value="91">Pyrite</option><option value="92">Pyrope (Garnet)</option><option value="93">Quartz</option><option value="94">Rhodizite</option><option value="95">Rhodochrosite</option><option value="96">Rhodolite (Garnet)</option><option value="97">Rhodonite</option><option value="98">Ruby (Corundum)</option><option value="99">Rutile</option><option value="100">Sapphire (Corundum)</option><option value="101">Sapphirine</option><option value="102">Scapolite</option><option value="103">Scheelite</option><option value="104">Serpentine</option><option value="105">Sillimanite</option><option value="106">Sinhalite</option><option value="107">Smithsonite</option><option value="108">Sodalite</option><option value="109">Spessartite / Spessartine (Garnet)</option><option value="110">Sphalerite</option><option value="111">Sphene (Titanite)</option><option value="112">Spinel</option><option value="113">Staurolite</option><option value="114">Strontium Titanate (Fabulite) Synthetic</option><option value="115">Sugilite</option><option value="116">Sunstone (Aventurine Feldspar)</option><option value="117">Taaffeite</option><option value="118">Talc (Steatite)</option><option value="119">Tanzanite (Zoisite)</option><option value="120">Topaz</option><option value="121">Tourmaline</option><option value="122">Tugtupite</option><option value="123">Turquoise</option><option value="124">Variscite</option><option value="125">Verdite</option><option value="126">Vesuvianite (Idocrase)</option><option value="127">Y.A.G. (Yttrium Aluminum Garnet)</option><option value="128">Zincite</option><option value="129">Zircon (High)</option><option value="130">Zircon (Low)</option><option value="131">Zircon (Medium)</option><option value="132">Zoisite (Tanzanite)</option></select></div>
+        
+<div class="field"><label>Gemstone</label>
+  <button id="stonePickerBtn" class="control stone-picker-btn" type="button">
+    <span class="stone-picker-main">
+      <span id="stonePickerName">Amethyst (Quartz)</span>
+      <small id="stonePickerSG">S.G. 2.66</small>
+    </span>
+    <span class="stone-chevron">⌄</span>
+  </button>
+  <select id="stoneSelect" class="control" hidden></select>
+</div>
+
         
 <div class="field"><label>Shape</label>
   <button id="shapePickerBtn" class="control shape-picker-btn" type="button">
@@ -218,6 +249,17 @@ select.control{appearance:none;background-image:linear-gradient(45deg,transparen
   </main>
 </div>
 
+
+
+<div id="stoneModal" class="stone-modal" aria-hidden="true">
+  <div class="stone-sheet">
+    <div class="sheet-handle"></div>
+    <div class="stone-sheet-title">Select Gemstone</div>
+    <input id="stoneSearch" class="control stone-search" type="search" placeholder="Search gemstone name…">
+    <div id="stoneResults" class="stone-results"></div>
+    <button id="closeStoneModal" class="btn btn-secondary stone-close">Close</button>
+  </div>
+</div>
 
 <div id="shapeModal" class="shape-modal" aria-hidden="true">
   <div class="shape-sheet">
@@ -316,12 +358,67 @@ const SHAPE_ICONS={
 };
 
 function n(v){const x=parseFloat(v);return Number.isFinite(x)?x:0}
+
+const COMMON_STONE_NAMES=['Agate','Almandine (Garnet)','Amethyst (Quartz)','Aquamarine (Beryl)','Chalcedony (Quartz)','Citrine (Quartz)','Diamond','Diopside','Emerald (Beryl)','Iolite (Cordierite)','Kunzite (Spodumene)','Labradorite (Feldspar)','Lapis-Lazuli','Moonstone (Orthoclase Feldspar)','Morganite (Beryl)','Opal','Pearl (Natural & Cultured)','Peridot','Quartz','Rhodolite (Garnet)','Ruby (Corundum)','Rutile','Sapphire (Corundum)','Spinel','Tanzanite (Zoisite)','Topaz','Tourmaline','Turquoise'];
+const normalizeStoneName=name=>String(name||"").replace(/\s+/g," ").trim();
+const COMMON_STONE_INDEX=new Map(COMMON_STONE_NAMES.map((name,index)=>[normalizeStoneName(name),index]));
+
 function selectedStone(){return STONES.find(s=>String(s.id)===stoneSelect.value)||STONES[0]}
+
+function sortedCommonStones(){
+  return STONES
+    .filter(s=>COMMON_STONE_INDEX.has(normalizeStoneName(s.name)))
+    .sort((a,b)=>COMMON_STONE_INDEX.get(normalizeStoneName(a.name))-COMMON_STONE_INDEX.get(normalizeStoneName(b.name)));
+}
+function sortedOtherStones(){
+  return STONES
+    .filter(s=>!COMMON_STONE_INDEX.has(normalizeStoneName(s.name)))
+    .sort((a,b)=>normalizeStoneName(a.name).localeCompare(normalizeStoneName(b.name)));
+}
+function stoneOptionHTML(s){
+  const active=String(s.id)===stoneSelect.value?" active":"";
+  return `<button type="button" class="stone-option${active}" data-stone-id="${s.id}">
+    <span class="stone-option-name">${esc(normalizeStoneName(s.name))}</span>
+    <span class="stone-option-sg">S.G. ${Number(s.sg_typical).toFixed(2)}</span>
+  </button>`;
+}
+function bindStoneOptions(){
+  document.querySelectorAll(".stone-option").forEach(btn=>btn.addEventListener("click",()=>{
+    stoneSelect.value=btn.dataset.stoneId;
+    updateStoneDisplay();
+    calculate();
+    $("stoneModal").classList.remove("show");
+  }));
+}
+function renderStonePicker(query=""){
+  const q=normalizeStoneName(query).toLowerCase();
+  const match=s=>!q||normalizeStoneName(s.name).toLowerCase().includes(q)||Number(s.sg_typical).toFixed(2).includes(q);
+  const common=sortedCommonStones().filter(match);
+  const other=sortedOtherStones().filter(match);
+  let html="";
+  if(common.length){
+    html+=`<div class="stone-section-title">Common Gemstones</div>`+common.map(stoneOptionHTML).join("");
+  }
+  if(common.length&&other.length) html+=`<div class="stone-divider"></div>`;
+  if(other.length){
+    html+=`<div class="stone-section-title">All Other Gemstones</div>`+other.map(stoneOptionHTML).join("");
+  }
+  if(!common.length&&!other.length) html=`<div class="stone-empty">No matching gemstone</div>`;
+  $("stoneResults").innerHTML=html;
+  bindStoneOptions();
+}
+function updateStoneDisplay(){
+  const s=selectedStone();
+  $("stonePickerName").textContent=normalizeStoneName(s.name);
+  $("stonePickerSG").textContent=`S.G. ${Number(s.sg_typical).toFixed(2)}`;
+}
+
 function populate(){
-  if(!stoneSelect.options.length){stoneSelect.innerHTML=STONES.map(s=>`<option value="${s.id}">${s.name}</option>`).join("");}
-  const amy=STONES.find(s=>s.name==="Amethyst (Quartz)");
+  stoneSelect.innerHTML=STONES.map(s=>`<option value="${s.id}">${normalizeStoneName(s.name)} — S.G. ${Number(s.sg_typical).toFixed(2)}</option>`).join("");
+  const amy=STONES.find(s=>normalizeStoneName(s.name)==="Amethyst (Quartz)");
   if(amy) stoneSelect.value=String(amy.id);
   $("sgShape").innerHTML=shapeSelect.innerHTML;
+  updateStoneDisplay();
 }
 let depthMode="0.70";
 function updateDepth(){
@@ -345,7 +442,7 @@ function calculate(){
   let ct=0;
   if(min>0&&max>0&&dep>0) ct=min*max*dep*factor*n(s.sg_typical)*girdle*bulge;
   const total=ct*qty;
-  $("resultStone").textContent=s.name;$("resultShape").textContent=shape;
+  $("resultStone").textContent=normalizeStoneName(s.name);$("resultShape").textContent=shape;
   $("stoneImage").src=s.image||"";$("singleWeight").textContent=ct.toFixed(3);
   $("quantitySummary").textContent=quantity.value ? qty+(qty===1?" pc":" pcs") : "—";
   $("totalWeight").textContent=total.toFixed(3)+" ct";$("gramWeight").textContent=(total*0.2).toFixed(3)+" g";
@@ -367,6 +464,17 @@ minDim.addEventListener("input",()=>{updateDepth();calculate()});
 $("resetBtn").addEventListener("click",reset);
 
 
+
+
+$("stonePickerBtn").addEventListener("click",()=>{
+  $("stoneSearch").value="";
+  renderStonePicker();
+  $("stoneModal").classList.add("show");
+  setTimeout(()=>$("stoneSearch").focus(),120);
+});
+$("stoneSearch").addEventListener("input",e=>renderStonePicker(e.target.value));
+$("closeStoneModal").addEventListener("click",()=>$("stoneModal").classList.remove("show"));
+$("stoneModal").addEventListener("click",e=>{if(e.target===$("stoneModal"))$("stoneModal").classList.remove("show")});
 
 function renderShapePicker(){
   const order=["Round","Oval","Emerald","Marquise","Heart","Pear","Cushion","Square","Cabochon","Princess"];

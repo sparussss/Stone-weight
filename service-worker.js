@@ -1,4 +1,4 @@
-const CACHE = 'stone-weight-pwa-1-2-7-complete';
+const CACHE = 'stone-weight-pwa-1-2-8-complete';
 const ASSETS = ['./','./index.html','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png'];
 
 self.addEventListener('install', event => {

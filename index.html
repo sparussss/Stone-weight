@@ -326,7 +326,7 @@ html,body{background:radial-gradient(circle at 50% -120px,#18345e 0,#090d14 42%,
 <div class="app">
   <header class="header">
   <div class="header-row">
-    <div><h1>Stone Weight</h1><small>Version 1.2.7 · Formula & Diamond Defaults</small></div>
+    <div><h1>Stone Weight</h1><small>Version 1.2.8 · UI Cleanup</small></div>
     <button id="menuBtn" class="menu-btn" aria-label="Open menu">☰</button>
   </div>
 </header>
@@ -376,7 +376,7 @@ html,body{background:radial-gradient(circle at 50% -120px,#18345e 0,#090d14 42%,
 </div>
 <div class="grid3">
         <div class="field" id="minField"><label id="minLabel">Min. Width <small>(0.50–30 mm)</small></label><div class="input-wrap"><input id="minDim" class="control" type="number" inputmode="decimal" min="0.5" max="30" step="0.01" value="" placeholder="Enter"><span class="unit">mm</span></div></div>
-        <div class="field" id="maxField"><label>Max. Length <small>(0.50–30 mm)</small></label><div class="input-wrap"><input id="maxDim" class="control" type="number" inputmode="decimal" min="0.5" max="30" step="0.01" value="" placeholder="Enter"><span class="unit">mm</span></div></div>
+        <div class="field" id="maxField"><label>Max. Length</label><div class="input-wrap"><input id="maxDim" class="control" type="number" inputmode="decimal" min="0.5" max="30" step="0.01" value="" placeholder="Enter"><span class="unit">mm</span></div></div>
         <div class="field"><label>Depth <small>(0.50–30 mm)</small></label><div class="input-wrap"><input id="depth" class="control" type="number" inputmode="decimal" min="0.5" max="30" step="0.01" value="" placeholder="Auto"><span class="unit">mm</span></div></div>
       </div>
 <div class="field">
@@ -671,9 +671,6 @@ function populate(){
   updateStoneDisplay();
 }
 
-const DIAMOND_DEFAULTS={
-Round:"61.5",Oval:"60",Pear:"60",Marquise:"60",Trillion:"60",Heart:"60",Cushion:"65",Emerald:"65",Square:"70",Princess:"70",Cabochon:"60"
-};
 
 let depthMode="0.70";
 function updateDepth(){
